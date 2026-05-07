@@ -8,14 +8,14 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t nagendar47-hash/khaathwik:latest .'
+        sh 'docker build -t nagendra99/khaathwik:latest .'
       }
     }
     stage('Push to DockerHub') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'khaathwik', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
           sh 'echo $PASS | docker login -u $USER --password-stdin'
-          sh 'docker push nagendar47-hash/khaathwik:latest'
+          sh 'docker push nagendra99/khaathwik:latest'
         }
       }
     }
