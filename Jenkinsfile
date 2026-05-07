@@ -2,21 +2,27 @@ pipeline {
   agent any
   stages {
     stage('Checkout') {
-      steps { git 'https://github.com/nagendar47-hash/khaathwik.git' }
+      steps {
+        git branch: 'main', url: 'https://github.com/nagendar47-hash/khaathwik.git'
+      }
     }
     stage('Build Docker Image') {
-      steps { sh 'docker build -t your-dockerhub-user/my-devops-app:latest .' }
+      steps {
+        sh 'docker build -t nagendar47-hash/khaathwik:latest .'
+      }
     }
     stage('Push to DockerHub') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'khaathwik', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
           sh 'echo $PASS | docker login -u $USER --password-stdin'
-          sh 'docker push your-dockerhub-user/my-devops-app:latest'
+          sh 'docker push nagendar47-hash/khaathwik:latest'
         }
       }
     }
     stage('Deploy to Kubernetes') {
-      steps { sh 'kubectl apply -f k8s/deployment.yaml' }
+      steps {
+        sh 'kubectl apply -f k8s/deployment.yaml'
+      }
     }
   }
 }
